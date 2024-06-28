@@ -1,94 +1,103 @@
+'use client'
+
 import Image from "next/image";
 import styles from "./page.module.css";
+import { Component, useState } from 'react';
 
 export default function Home() {
+  const [firstPara, setFirstPara] = useState<string>("");
+  const [secondPara, setSecondPara] = useState<string>("");
+  const [freePara, setFreePara] = useState<string>("");
+  const [currentFocus, setCurrentFocus] = useState<number>(0);
+
+  type CalButtonProps = {
+    value: string
+  }
+
+  function CalButton({value}: CalButtonProps) {
+    function OnClickNumButton() {
+      switch (currentFocus) {
+        case 1:
+          value != "√"? setFirstPara(firstPara.concat(value)): setFirstPara(firstPara.concat("√("));
+          break;
+        case 2:
+          value != "√"? setSecondPara(secondPara.concat(value)): setSecondPara(secondPara.concat("√("));
+          break;
+        case 3:
+          value != "√"? setFreePara(freePara.concat(value)): setFreePara(freePara.concat("√("));
+          break;
+        default: 
+      }
+    }
+    return (
+      <button onClick={OnClickNumButton}>{value}</button>
+    )
+  }
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
+    <main>
+      <h1>Giải phương trình bậc 2 online</h1>
+
+      <ul>
+        <li><CalButton value={'1'}></CalButton></li>
+        <li><CalButton value={'2'}></CalButton></li>
+        <li><CalButton value={'3'}></CalButton></li>
+        <li><CalButton value={'4'}></CalButton></li>
+        <li><CalButton value={'5'}></CalButton></li>
+        <li><CalButton value={'6'}></CalButton></li>
+        <li><CalButton value={'7'}></CalButton></li>
+        <li><CalButton value={'8'}></CalButton></li>
+        <li><CalButton value={'9'}></CalButton></li>
+        <li><CalButton value={'0'}></CalButton></li>
+      </ul>
+
+      <ul>
+        <li><CalButton value="+"></CalButton></li>
+        <li><CalButton value="-"></CalButton></li>
+        <li><CalButton value="*"></CalButton></li>
+        <li><CalButton value="/"></CalButton></li>
+        <li><CalButton value="√"></CalButton></li>
+        <li><CalButton value="("></CalButton></li>
+        <li><CalButton value=")"></CalButton></li>
+        <li><CalButton value="."></CalButton></li>
+      </ul>
+
+      <div>
         <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+          <h3>Nhập các hệ số</h3>
+          <p><input value={firstPara} onFocus={() => {setCurrentFocus(1)}} onChange={(e) => {setFirstPara(e.target.value)}}></input>X<sup>2</sup> 
+          + <input value={secondPara} onFocus={() => {setCurrentFocus(2)}} onChange={(e) => {setSecondPara(e.target.value)}}></input>X 
+          + <input value={freePara} onFocus={() => {setCurrentFocus(3)}} onChange={(e) => {setFreePara(e.target.value)}}></input> = 0</p>
+          <button onClick={() => {
+            // ExpressionToNumber(firstPara);
+            // ExpressionToNumber(secondPara);
+            // ExpressionToNumber(freePara);
+            if ((firstPara === "") || (secondPara === "") || (freePara === "")) {
+              alert("Nhập đủ các hệ số")  
+            }
+            else {
+              try {
+                console.log(eval(firstPara.replace("√", "Math.sqrt")));
+                console.log(eval(secondPara.replace("√", "Math.sqrt")));
+                console.log(eval(freePara.replace("√", "Math.sqrt")));
+              }
+              catch(e) {
+                alert("Nhập không đúng định dạng")
+              }
+            }
+          }}>Tính nghiệm</button>
+          <button onClick={() => {
+            setFirstPara("");
+            setSecondPara("");
+            setFreePara("");
+            setCurrentFocus(0);
+          }}>Làm mới</button>
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        <div>
+          <p>X<sub>1</sub>=</p>
+          <p>X<sub>2</sub>=</p>
+          <button>Rút gọn kết quả</button>
+        </div>
       </div>
     </main>
   );
