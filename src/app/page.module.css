@@ -1,4 +1,4 @@
-.main {
+/* .main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -109,6 +109,7 @@
   position: relative;
 }
 /* Enable hover only on non-touch devices */
+/*
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
     background: rgba(var(--card-rgb), 0.1);
@@ -127,6 +128,7 @@
 }
 
 /* Mobile */
+/*
 @media (max-width: 700px) {
   .content {
     padding: 4rem;
@@ -204,6 +206,7 @@
 }
 
 /* Tablet and Smaller Desktop */
+/*
 @media (min-width: 701px) and (max-width: 1120px) {
   .grid {
     grid-template-columns: repeat(2, 50%);
@@ -227,4 +230,122 @@
   to {
     transform: rotate(0deg);
   }
+} 
+*/
+
+.main {
+  background-color: white;
+}
+
+.title {
+  text-align: center;
+  color: #004a02;
+}
+
+.num_list{
+  text-align: center;
+}
+
+.num_list li {
+  display: inline-block;
+}
+
+.symbol_list {
+  text-align: center;
+}
+
+.symbol_list li {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.sym_button {
+  margin: 2px;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  color: #477a48;
+  border-color: #477a48;
+  background-color: inherit;
+}
+
+.sym_button:hover {
+  border-style: dotted;
+}
+
+.input_and_solution {
+  align-self: center;
+  border: dashed;
+  border-color: #004a02;
+  padding: 10px;
+  margin-top: 20px;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.input {
+  text-align: center;
+}
+
+.input h3 {
+  color: #004a02;
+}
+
+.input p {
+  font-weight: bold;
+  color: #004a02;
+}
+
+.input p input {
+  display: inline-block;
+  text-align: center;
+  border: inherit;
+  color: rgb(193, 127, 66);
+  font-weight: bold;
+  background-color: inherit;
+  border-bottom: 2px dotted #889389;
+}
+
+.input button {
+  color: black;
+  margin-top: 10px;
+  margin-left: 2px;
+  margin-right: 2px;
+  padding: 2px;
+  border-color: black;
+  background-color: inherit;
+}
+
+.input button:hover {
+  color: white;
+  background-color: slategray;
+}
+
+.solution {
+
+}
+
+.solution p {
+  color: #004a02;
+  font-weight: bold;
+}
+
+.solution button {
+  color: black;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 2px;
+  border-color: black;
+  background-color: inherit;
+}
+
+.solution button:hover {
+  color: white;
+  background-color: slategray;
+}
+
+.attention {
+  text-align: center;
+  font-weight: bold;
+  color: #004a02;
 }

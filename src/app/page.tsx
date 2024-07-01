@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import styles from "./page.module.css";
-import { Component, useState } from 'react';
+import { Component, FormEvent, useState } from 'react';
 import axios from 'axios'
 
 export default function Home() {
@@ -10,6 +10,7 @@ export default function Home() {
   const [secondPara, setSecondPara] = useState<string>("");
   const [freePara, setFreePara] = useState<string>("");
   const [currentFocus, setCurrentFocus] = useState<number>(0);
+  // const [currentInputEvent, setCurrentInputEvent] = useState<FormEvent<HTMLSpanElement>>()
   const [solution, setSolution]  = useState<number[]>([]);
 
   type CalButtonProps = {
@@ -32,15 +33,15 @@ export default function Home() {
       }
     }
     return (
-      <button onClick={OnClickNumButton}>{value}</button>
+      <button className={styles.sym_button} onClick={OnClickNumButton}>{value}</button>
     )
   }
 
   return (
-    <main>
-      <h1>Giải phương trình bậc 2 online</h1>
+    <main className={styles.main}>
+      <h1 className={styles.title}>Giải phương trình bậc 2 online</h1>
 
-      <ul>
+      <ul className={styles.num_list}>
         <li><CalButton value={'1'}></CalButton></li>
         <li><CalButton value={'2'}></CalButton></li>
         <li><CalButton value={'3'}></CalButton></li>
@@ -53,7 +54,7 @@ export default function Home() {
         <li><CalButton value={'0'}></CalButton></li>
       </ul>
 
-      <ul>
+      <ul className={styles.symbol_list}>
         <li><CalButton value="+"></CalButton></li>
         <li><CalButton value="-"></CalButton></li>
         <li><CalButton value="*"></CalButton></li>
@@ -63,12 +64,13 @@ export default function Home() {
         <li><CalButton value=")"></CalButton></li>
         <li><CalButton value="."></CalButton></li>
       </ul>
+      <hr></hr>
 
-      <div>
-        <div>
+      <div className={styles.input_and_solution}>
+        <div className={styles.input}>
           <h3>Nhập các hệ số</h3>
-          <p><input value={firstPara} onFocus={() => {setCurrentFocus(1)}} onChange={(e) => {setFirstPara(e.target.value)}}></input>X<sup>2</sup> 
-          + <input value={secondPara} onFocus={() => {setCurrentFocus(2)}} onChange={(e) => {setSecondPara(e.target.value)}}></input>X 
+          <p><input type="text" value={firstPara} onFocus={() => {setCurrentFocus(1)}} onChange={(e) => {setFirstPara(e.target.value)}}></input> x<sup>2</sup> 
+          + <input type="text" value={secondPara} onFocus={() => {setCurrentFocus(2)}} onChange={(e) => {setSecondPara(e.target.value)}}></input> x 
           + <input value={freePara} onFocus={() => {setCurrentFocus(3)}} onChange={(e) => {setFreePara(e.target.value)}}></input> = 0</p>
           <button onClick={async () => {
             // ExpressionToNumber(firstPara);
@@ -85,6 +87,7 @@ export default function Home() {
                 var first = eval(firstPara.replace("√", "Math.sqrt"));
                 var second = eval(secondPara.replace("√", "Math.sqrt"));
                 var free = eval(freePara.replace("√", "Math.sqrt"));
+                console.log(first, second, free);
                 const URL = `http://localhost:4000/?firstPara=${first}&secondPara=${second}&freePara=${free}`
                 axios.get(URL)
                   .then((response) => {
@@ -95,12 +98,12 @@ export default function Home() {
                   .catch((error: any) => {
                     console.error(error);
                   })
+                }
+                catch(e) {
+                  alert("Nhập không đúng định dạng")
+                }
               }
-              catch(e) {
-                alert("Nhập không đúng định dạng")
-              }
-            }
-          }}>Tính nghiệm</button>
+            }}>Tính nghiệm</button>
           <button onClick={() => {
             setFirstPara("");
             setSecondPara("");
@@ -108,10 +111,16 @@ export default function Home() {
             setCurrentFocus(0);
           }}>Làm mới</button>
         </div>
-        <div>
+        <div className={styles.solution}>
           <p>X<sub>1</sub>= {solution[0]}</p>
           <p>X<sub>2</sub>= {solution[1]}</p>
-          <button>Rút gọn kết quả</button>
+          <button onClick={() => {setSolution(
+            [
+              Number(solution[0].toFixed(3)),
+              Number(solution[1].toFixed(3))
+            ]
+          )}}>Rút gọn kết quả</button>
+          <p className={styles.attention}>(Chú ý, rút gọn số quá phức tạp có thể cho ra kết quả không mong muốn)</p>
         </div>
       </div>
     </main>
