@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import styles from "./page.module.css";
+import Link from 'next/link';
 import { Component, FormEvent, useState } from 'react';
 import axios from 'axios'
 
@@ -39,6 +40,10 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
+      <div className={styles.account}>
+        <p><Link href="/account">Đăng nhập/Đăng ký</Link></p>
+      </div>
+
       <h1 className={styles.title}>Giải phương trình bậc 2 online</h1>
 
       <ul className={styles.num_list}>
@@ -73,9 +78,6 @@ export default function Home() {
           + <input type="text" value={secondPara} onFocus={() => {setCurrentFocus(2)}} onChange={(e) => {setSecondPara(e.target.value)}}></input> x 
           + <input value={freePara} onFocus={() => {setCurrentFocus(3)}} onChange={(e) => {setFreePara(e.target.value)}}></input> = 0</p>
           <button onClick={async () => {
-            // ExpressionToNumber(firstPara);
-            // ExpressionToNumber(secondPara);
-            // ExpressionToNumber(freePara);
             if ((firstPara === "") || (secondPara === "") || (freePara === "")) {
               alert("Nhập đủ các hệ số")  
             }

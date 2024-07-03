@@ -237,6 +237,18 @@
   background-color: white;
 }
 
+.account {
+  background-color: #004a02;
+}
+
+.account p {
+  text-align: end;
+}
+
+.account p:hover {
+  color: purple;
+}
+
 .title {
   text-align: center;
   color: #004a02;
