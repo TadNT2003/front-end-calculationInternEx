@@ -245,9 +245,18 @@
   text-align: end;
 }
 
-.account p:hover {
+.account_page {
+  text-decoration: underline;
+}
+
+.account_page:hover {
   color: purple;
 }
+
+/* .user_logedin {
+  display: inline;
+  text-align: end;
+} */
 
 .title {
   text-align: center;

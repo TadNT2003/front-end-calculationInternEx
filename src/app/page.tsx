@@ -3,19 +3,33 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import Link from 'next/link';
-import { Component, FormEvent, useState } from 'react';
-import axios from 'axios'
+import { getCookies, logout } from '@/lib/action';
+import { useState } from 'react';
+import axios from 'axios';
+import Account from './account';
+import { useSearchParams, useRouter } from 'next/navigation';
 
-export default function Home() {
+export default function Home({userID=0, checkCookie=true} : {userID: number, checkCookie: boolean}) {
+  const route = useRouter()
   const [firstPara, setFirstPara] = useState<string>("");
   const [secondPara, setSecondPara] = useState<string>("");
   const [freePara, setFreePara] = useState<string>("");
   const [currentFocus, setCurrentFocus] = useState<number>(0);
-  // const [currentInputEvent, setCurrentInputEvent] = useState<FormEvent<HTMLSpanElement>>()
+  // const [isLogin, setIsLogin] = useState<boolean>(false)
   const [solution, setSolution]  = useState<number[]>([]);
+
+  // const searchParams = useSearchParams()
+  // const userId = searchParams.get("userId")
+  // console.log(userId)
+
+  // const Id = getID()
 
   type CalButtonProps = {
     value: string
+  }
+
+  async function Logout() {
+    await logout()
   }
 
   function CalButton({value}: CalButtonProps) {
@@ -38,10 +52,15 @@ export default function Home() {
     )
   }
 
-  return (
+  if (!checkCookie) {
+    Logout();
+    route.push("/account");
+  }
+  else return (
     <main className={styles.main}>
+      {}
       <div className={styles.account}>
-        <p><Link href="/account">Đăng nhập/Đăng ký</Link></p>
+        <Account userId={userID}></Account>
       </div>
 
       <h1 className={styles.title}>Giải phương trình bậc 2 online</h1>
@@ -89,13 +108,19 @@ export default function Home() {
                 var first = eval(firstPara.replace("√", "Math.sqrt"));
                 var second = eval(secondPara.replace("√", "Math.sqrt"));
                 var free = eval(freePara.replace("√", "Math.sqrt"));
-                console.log(first, second, free);
+                // console.log(first, second, free);
                 const URL = `http://localhost:4000/?firstPara=${first}&secondPara=${second}&freePara=${free}`
                 axios.get(URL)
                   .then((response) => {
-                    console.log(response.data)
+                    // console.log(response.data)
                     const solution = response.data
-                    setSolution([solution.firstSol, solution.secondSol])
+                    if (solution) {
+                      setSolution([solution.firstSol, solution.secondSol])
+                    }
+                    else {
+                      setSolution([])
+                      alert("Phương trình không có nghiệm thực")
+                    }
                   })
                   .catch((error: any) => {
                     console.error(error);
@@ -122,6 +147,7 @@ export default function Home() {
               Number(solution[1].toFixed(3))
             ]
           )}}>Rút gọn kết quả</button>
+          {/* Thêm một nút lưu kết quả và nút xem kết quả đã lưu khi đăng nhập, nên làm một component riêng  */}
           <p className={styles.attention}>(Chú ý, rút gọn số quá phức tạp có thể cho ra kết quả không mong muốn)</p>
         </div>
       </div>
